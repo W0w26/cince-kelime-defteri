@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Çince Kelime Defteri</title>
+<meta name="description" content="Ders tahtalarından derlenen Çince kelimeler: liste, kartlar ve test.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231f5f8b'/%3E%3Ctext x='50' y='72' font-size='64' text-anchor='middle' fill='white'%3E中%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Lexend:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<script>(function(){try{var t=localStorage.getItem("zh-theme");if(t&&JSON.parse(t)!=="auto")document.documentElement.dataset.theme=JSON.parse(t)}catch(e){}})()</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Çince Kelime Defteri</h1>
+    <p>Tahtaya yazılan kelimeler ve örnek cümleler, ders sırasıyla. Pinyin harfleri tonlarına göre renkli:</p>
+    <div class="legend"><span class="t1"><b>1. ton</b> ā</span><span class="t2"><b>2. ton</b> á</span><span class="t3"><b>3. ton</b> ǎ</span><span class="t4"><b>4. ton</b> à</span><span class="t5"><b>nötr</b> a</span></div>
+    <div class="tools">
+      <a class="btn sm" href="indir/cince-kelimeler.pdf" download>PDF indir</a>
+      <a class="btn sm" href="indir/cince-kelimeler.xlsx" download>Excel indir</a>
+      <button class="btn sm" id="theme" type="button" aria-label="Tema değiştir">Tema: otomatik</button>
+    </div>
+  </header>
+  <nav>
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="liste" aria-selected="true">Liste</button>
+      <button role="tab" data-tab="kart" aria-selected="false">Kartlar</button>
+      <button role="tab" data-tab="sina" aria-selected="false">Kendini sına</button>
+    </div>
+    <div class="lessons" id="lessons"></div>
+  </nav>
+  <main id="liste-wrap">
+    <div class="search">
+      <input type="search" id="q" placeholder="Ara: hanzi, pinyin (tonsuz da olur) ya da Türkçe…" aria-label="Kelime ara" autocomplete="off">
+      <span class="meta" id="qcount"></span>
+    </div>
+    <div id="liste"></div>
+  </main>
+  <main id="kart" hidden>
+    <div class="stage">
+      <div class="opts">
+        <label for="kdir">Ön yüz:</label>
+        <select id="kdir"><option value="h">Hanzi</option><option value="tr">Türkçe</option><option value="p">Pinyin</option></select>
+        <label><input type="checkbox" id="khide"> Bildiklerimi gizle</label>
+      </div>
+      <button class="card" id="card" aria-label="Kartı çevir"><div class="in"><div class="face front" id="cf"></div><div class="face back" id="cb"></div></div></button>
+      <div class="meta" id="kmeta"></div>
+      <div class="ctrl">
+        <button class="btn" id="kprev">← Önceki</button>
+        <button class="btn okb" id="kknow">Biliyorum ✓</button>
+        <button class="btn pri" id="knext">Sonraki →</button>
+        <button class="btn" id="kshuf">Karıştır</button>
+      </div>
+      <div class="meta">Karta dokun ya da boşluk tuşuna bas: çevir. Ok tuşları: önceki/sonraki.</div>
+    </div>
+  </main>
+  <main id="sina" hidden>
+    <div class="stage">
+      <div class="opts">
+        <label for="qmode">Soru türü:</label>
+        <select id="qmode">
+          <option value="h-tr">Hanzi → Türkçe anlam</option>
+          <option value="tr-h">Türkçe → Hanzi</option>
+          <option value="h-p">Hanzi → doğru pinyin (ton)</option>
+          <option value="s-tr">Cümle → Türkçe çeviri</option>
+          <option value="mix">Karışık</option>
+        </select>
+      </div>
+      <div class="qbox">
+        <div class="meta" id="qkind"></div>
+        <div id="qp" class="qprompt"></div>
+        <div class="choices" id="qc"></div>
+        <div class="fb" id="qfb"></div>
+        <div class="ctrl"><span class="score" id="qs">0 / 0</span><button class="btn pri" id="qn">Sonraki soru</button><button class="btn" id="qr">Skoru sıfırla</button></div>
+      </div>
+    </div>
+  </main>
+</div>
+<footer class="wrap foot meta">Tüm ilerlemen (bildiğin kartlar, skor, seçili dersler) bu tarayıcıda saklanır. İnternet olmadan da çalışır; yalnızca yazı tipleri internetten gelir.</footer>
+<script src="veri/kelimeler.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
