@@ -11,11 +11,20 @@ function colorPin(p){
   });
 }
 const L=DATA.dersler;
-// sesli okuma (tarayıcının Çince sesi varsa)
+// sesli okuma: önce Google çevrimiçi Çince ses, olmazsa tarayıcının kendi sesi
 const TTS="speechSynthesis" in window;
-if(!TTS)document.documentElement.classList.add("no-tts");
-function say(text){if(!TTS)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text.replace(/Mert|IK|Starbucks|Güneş/g,""));u.lang="zh-CN";u.rate=.8;
+let audio=null;
+function sayBrowser(t){if(!TTS)return;const u=new SpeechSynthesisUtterance(t);u.lang="zh-CN";u.rate=.8;
   const v=speechSynthesis.getVoices().find(v=>/^zh(-|_)?(CN|Hans)?/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}
+function say(text){
+  const t=text.replace(/Mert|IK|Starbucks|Güneş/g,"").trim();if(!t)return;
+  if(audio)audio.pause();if(TTS)speechSynthesis.cancel();
+  const a=new Audio();audio=a;a.referrerPolicy="no-referrer";a.defaultPlaybackRate=a.playbackRate=.9;
+  let fell=false;const fall=()=>{if(fell||audio!==a)return;fell=true;sayBrowser(t)};
+  a.onerror=fall;
+  a.src="https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=zh-CN&q="+encodeURIComponent(t);
+  a.play().catch(fall);
+}
 const sayBtn=t=>`<button class="say" type="button" data-say="${esc(t)}" aria-label="Sesli oku" title="Sesli oku">🔊</button>`;
 document.addEventListener("click",e=>{const b=e.target.closest(".say");if(!b)return;e.stopPropagation();e.preventDefault();say(b.dataset.say)},true);
 // arama
